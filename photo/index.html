@@ -8,78 +8,48 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
   <style>
-    :root{ --ink:#1A1A1A; --paper:#FFFFFF; --accent:#C0392B; }
+    :root{ --ink:#1A1A1A; --paper:#FFFFFF; --gap:14px; }
     *{ margin:0; padding:0; box-sizing:border-box; }
-    html,body{ height:100%; background:var(--paper); color:var(--ink); font-family:'Inter', sans-serif; }
-    body{ display:flex; flex-direction:column; overflow:hidden; }
+    body{ background:var(--paper); color:var(--ink); font-family:'Inter', sans-serif; }
 
     header{
-      flex-shrink:0;
-      display:flex; justify-content:space-between; align-items:center;
-      padding:1.4rem 2rem;
-      font-size:0.68rem; letter-spacing:0.18em; text-transform:uppercase;
+      padding:1.35rem 1.75rem 1.1rem;
+      font-size:0.68rem; letter-spacing:0.16em; text-transform:uppercase;
     }
-    header a{ color:var(--ink); text-decoration:none; }
-    header a:hover{ opacity:0.6; }
-    header span{ opacity:0.45; }
-
-    .viewer{
-      flex:1;
-      display:flex; align-items:center; justify-content:center;
-      position:relative;
-      min-height:0;
-      padding:0 4rem 2rem;
+    header a{
+      color:var(--ink); text-decoration:none;
     }
-
-    .frame{
-      flex:1;
-      display:flex; align-items:center; justify-content:center;
-      max-height:calc(100vh - 5.5rem);
-      max-width:min(920px, 100%);
-    }
-    .frame img{
-      display:block;
-      max-width:100%;
-      max-height:calc(100vh - 5.5rem);
-      width:auto; height:auto;
-      object-fit:contain;
-      user-select:none;
-    }
-
-    .nav{
-      position:absolute;
-      top:50%; transform:translateY(-50%);
-      background:none; border:none; cursor:pointer;
-      color:var(--accent);
-      font-size:1.6rem; line-height:1;
-      padding:1rem 0.5rem;
-      opacity:0.85;
-      transition:opacity 0.2s ease;
-    }
-    .nav:hover{ opacity:1; }
-    .nav:disabled{ opacity:0.15; cursor:default; }
-    .nav--prev{ left:1.25rem; }
-    .nav--next{ right:1.25rem; }
-
-    .counter{
-      position:absolute;
-      bottom:1.25rem; left:50%;
-      transform:translateX(-50%);
-      font-size:0.62rem;
-      letter-spacing:0.2em;
+    header a:hover{ opacity:0.55; }
+    header .sep{
+      display:inline-block;
+      margin:0 1.1rem;
       opacity:0.35;
     }
 
-    @media (max-width:720px){
-      header{ padding:1.1rem 1.25rem; font-size:0.6rem; }
-      .viewer{ padding:0 2.75rem 1.5rem; }
-      .nav{ font-size:1.35rem; }
-      .nav--prev{ left:0.4rem; }
-      .nav--next{ right:0.4rem; }
+    .gallery{
+      column-count:3;
+      column-gap:var(--gap);
+      padding:0 1.75rem 2.5rem;
     }
 
-    @media (prefers-reduced-motion: reduce){
-      .nav{ transition:none; }
+    .cell{
+      break-inside:avoid;
+      margin-bottom:var(--gap);
+      line-height:0;
+    }
+
+    .cell img{
+      width:100%;
+      height:auto;
+      display:block;
+    }
+
+    @media (max-width:980px){
+
+    @media (max-width:560px){
+      .gallery{ column-count:1; padding:0 1rem 2rem; }
+      header{ padding:1.1rem 1rem 0.9rem; font-size:0.62rem; }
+      header .sep{ margin:0 0.75rem; }
     }
   </style>
 </head>
@@ -87,63 +57,24 @@
 
   <header>
     <a href="../">Laurent Bourdoiseau</a>
+    <span class="sep">·</span>
     <span>Photographie</span>
   </header>
 
-  <main class="viewer" aria-label="Galerie photographie">
-    <button class="nav nav--prev" type="button" aria-label="Image précédente">‹</button>
-
-    <figure class="frame">
-      <img id="slide" src="images/01.jpg" alt="" draggable="false">
-    </figure>
-
-    <button class="nav nav--next" type="button" aria-label="Image suivante">›</button>
-    <p class="counter" id="counter" aria-live="polite">1 / 12</p>
+  <main class="gallery" aria-label="Galerie photographie">
+    <figure class="cell"><img src="images/01.jpg" alt="" loading="lazy"></figure>
+    <figure class="cell"><img src="images/02.jpg" alt="" loading="lazy"></figure>
+    <figure class="cell"><img src="images/03.jpg" alt="" loading="lazy"></figure>
+    <figure class="cell"><img src="images/04.jpg" alt="" loading="lazy"></figure>
+    <figure class="cell"><img src="images/05.jpg" alt="" loading="lazy"></figure>
+    <figure class="cell"><img src="images/06.jpg" alt="" loading="lazy"></figure>
+    <figure class="cell"><img src="images/07.jpg" alt="" loading="lazy"></figure>
+    <figure class="cell"><img src="images/08.jpg" alt="" loading="lazy"></figure>
+    <figure class="cell"><img src="images/09.jpg" alt="" loading="lazy"></figure>
+    <figure class="cell"><img src="images/10.jpg" alt="" loading="lazy"></figure>
+    <figure class="cell"><img src="images/11.jpg" alt="" loading="lazy"></figure>
+    <figure class="cell"><img src="images/12.jpg" alt="" loading="lazy"></figure>
   </main>
-
-  <script>
-    const images = Array.from({ length: 12 }, (_, i) =>
-      `images/${String(i + 1).padStart(2, '0')}.jpg`
-    );
-
-    let index = 0;
-    const slide = document.getElementById('slide');
-    const counter = document.getElementById('counter');
-    const prev = document.querySelector('.nav--prev');
-    const next = document.querySelector('.nav--next');
-
-    function render() {
-      slide.src = images[index];
-      counter.textContent = `${index + 1} / ${images.length}`;
-      prev.disabled = index === 0;
-      next.disabled = index === images.length - 1;
-    }
-
-    prev.addEventListener('click', () => {
-      if (index > 0) { index -= 1; render(); }
-    });
-
-    next.addEventListener('click', () => {
-      if (index < images.length - 1) { index += 1; render(); }
-    });
-
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowLeft' && index > 0) { index -= 1; render(); }
-      if (e.key === 'ArrowRight' && index < images.length - 1) { index += 1; render(); }
-    });
-
-    let touchX = null;
-    slide.addEventListener('touchstart', (e) => { touchX = e.changedTouches[0].clientX; }, { passive: true });
-    slide.addEventListener('touchend', (e) => {
-      if (touchX === null) return;
-      const delta = e.changedTouches[0].clientX - touchX;
-      if (delta > 50 && index > 0) { index -= 1; render(); }
-      if (delta < -50 && index < images.length - 1) { index += 1; render(); }
-      touchX = null;
-    }, { passive: true });
-
-    render();
-  </script>
 
 </body>
 </html>
