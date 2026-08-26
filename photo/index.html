@@ -1,49 +1,58 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Laurent Bourdoiseau — Photographie</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@300&family=Inter:wght@400;500&display=swap" rel="stylesheet">
-<style>
-  :root{ --ink:#F1EEE7; --void:#0A0A0B; }
-  *{ margin:0; padding:0; box-sizing:border-box; }
-  body{ background:var(--void); color:var(--ink); font-family:'Inter', sans-serif; }
-  header{
-    position:fixed; top:0; left:0; right:0; z-index:10;
-    display:flex; justify-content:space-between; align-items:center;
-    padding:1.5rem 2rem; font-size:0.7rem; letter-spacing:0.15em; text-transform:uppercase;
-    background:linear-gradient(to bottom, rgba(10,10,11,0.9), transparent);
-  }
-  header a{ color:var(--ink); text-decoration:none; opacity:0.7; }
-  header a:hover{ opacity:1; }
-  .gallery{ display:flex; flex-direction:column; }
-  .plate{
-    width:100%; min-height:100vh;
-    display:flex; align-items:center; justify-content:center;
-    border-bottom:1px solid rgba(241,238,231,0.06);
-  }
-  .plate img{ max-width:100%; max-height:100vh; object-fit:contain; }
-  .placeholder{
-    font-family:'Fraunces', serif; font-weight:300; font-style:italic;
-    opacity:0.3; font-size:1rem; text-align:center; padding:2rem;
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laurent Bourdoiseau — Photographie</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root{ --ink:#1A1A1A; --paper:#FFFFFF; }
+    *{ margin:0; padding:0; box-sizing:border-box; }
+    body{ background:var(--paper); color:var(--ink); font-family:'Inter', sans-serif; }
+    header{
+      position:fixed; top:0; left:0; right:0; z-index:10;
+      display:flex; justify-content:space-between; align-items:center;
+      padding:1.5rem 2rem; font-size:0.7rem; letter-spacing:0.15em; text-transform:uppercase;
+      background:linear-gradient(to bottom, rgba(255,255,255,0.95), transparent);
+    }
+    header a{ color:var(--ink); text-decoration:none; opacity:0.5; }
+    header a:hover{ opacity:1; }
+    .gallery{ display:flex; flex-direction:column; }
+    .plate{
+      width:100%; min-height:100vh;
+      display:flex; align-items:center; justify-content:center;
+      border-bottom:1px solid rgba(26,26,26,0.06);
+    }
+    .plate img{ max-width:100%; max-height:100vh; object-fit:contain; }
+    .placeholder{
+      font-family:'Fraunces', serif; font-weight:300; font-style:italic;
+      opacity:0.25; font-size:1rem; text-align:center; padding:2rem;
+    }
+  </style>
 </head>
 <body>
 
-<header>
-  <a href="../">← Laurent Bourdoiseau</a>
-  <span>Photographie</span>
-</header>
+  <header>
+    <a href="../">← Laurent Bourdoiseau</a>
+    <span>Photographie</span>
+  </header>
 
-<div class="gallery">
-  <!-- Remplace chaque bloc .plate par une image : <div class="plate"><img src="01.jpg" alt=""></div> -->
-  <div class="plate"><p class="placeholder">Image 1 — glisse ta photo ici (01.jpg)</p></div>
-  <div class="plate"><p class="placeholder">Image 2 — glisse ta photo ici (02.jpg)</p></div>
-  <div class="plate"><p class="placeholder">Image 3 — glisse ta photo ici (03.jpg)</p></div>
-</div>
+  <main class="gallery">
+    <div class="plate"><img src="images/01.jpg" alt="" loading="lazy"></div>
+    <div class="plate"><img src="images/02.jpg" alt="" loading="lazy"></div>
+    <div class="plate"><img src="images/03.jpg" alt="" loading="lazy"></div>
+    <div class="plate"><img src="images/04.jpg" alt="" loading="lazy"></div>
+    <div class="plate"><img src="images/05.jpg" alt="" loading="lazy"></div>
+    <div class="plate"><img src="images/06.jpg" alt="" loading="lazy"></div>
+    <div class="plate"><img src="images/07.jpg" alt="" loading="lazy"></div>
+    <div class="plate"><img src="images/08.jpg" alt="" loading="lazy"></div>
+    <div class="plate"><img src="images/09.jpg" alt="" loading="lazy"></div>
+    <div class="plate"><img src="images/10.jpg" alt="" loading="lazy"></div>
+    <div class="plate"><img src="images/11.jpg" alt="" loading="lazy"></div>
+    <div class="plate"><img src="images/12.jpg" alt="" loading="lazy"></div>
+  </main>
 
 </body>
 </html>
