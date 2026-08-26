@@ -6,54 +6,144 @@
   <title>Laurent Bourdoiseau — Photographie</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
   <style>
-    :root{ --ink:#1A1A1A; --paper:#FFFFFF; }
+    :root{ --ink:#1A1A1A; --paper:#FFFFFF; --accent:#C0392B; }
     *{ margin:0; padding:0; box-sizing:border-box; }
-    body{ background:var(--paper); color:var(--ink); font-family:'Inter', sans-serif; }
+    html,body{ height:100%; background:var(--paper); color:var(--ink); font-family:'Inter', sans-serif; }
+    body{ display:flex; flex-direction:column; overflow:hidden; }
+
     header{
-      position:fixed; top:0; left:0; right:0; z-index:10;
+      flex-shrink:0;
       display:flex; justify-content:space-between; align-items:center;
-      padding:1.5rem 2rem; font-size:0.7rem; letter-spacing:0.15em; text-transform:uppercase;
-      background:transparent;
-      pointer-events:none;
+      padding:1.4rem 2rem;
+      font-size:0.68rem; letter-spacing:0.18em; text-transform:uppercase;
     }
-    header a{ color:var(--ink); text-decoration:none; opacity:0.5; pointer-events:auto; }
-    header a:hover{ opacity:1; }
-    .gallery{ display:flex; flex-direction:column; }
-    .plate{
-      width:100%; min-height:100vh;
+    header a{ color:var(--ink); text-decoration:none; }
+    header a:hover{ opacity:0.6; }
+    header span{ opacity:0.45; }
+
+    .viewer{
+      flex:1;
       display:flex; align-items:center; justify-content:center;
-      border-bottom:1px solid rgba(26,26,26,0.06);
+      position:relative;
+      min-height:0;
+      padding:0 4rem 2rem;
     }
-    .plate img{ max-width:100%; max-height:100vh; object-fit:contain; }
-    .placeholder{
-      font-family:'Fraunces', serif; font-weight:300; font-style:italic;
-      opacity:0.25; font-size:1rem; text-align:center; padding:2rem;
+
+    .frame{
+      flex:1;
+      display:flex; align-items:center; justify-content:center;
+      max-height:calc(100vh - 5.5rem);
+      max-width:min(920px, 100%);
+    }
+    .frame img{
+      display:block;
+      max-width:100%;
+      max-height:calc(100vh - 5.5rem);
+      width:auto; height:auto;
+      object-fit:contain;
+      user-select:none;
+    }
+
+    .nav{
+      position:absolute;
+      top:50%; transform:translateY(-50%);
+      background:none; border:none; cursor:pointer;
+      color:var(--accent);
+      font-size:1.6rem; line-height:1;
+      padding:1rem 0.5rem;
+      opacity:0.85;
+      transition:opacity 0.2s ease;
+    }
+    .nav:hover{ opacity:1; }
+    .nav:disabled{ opacity:0.15; cursor:default; }
+    .nav--prev{ left:1.25rem; }
+    .nav--next{ right:1.25rem; }
+
+    .counter{
+      position:absolute;
+      bottom:1.25rem; left:50%;
+      transform:translateX(-50%);
+      font-size:0.62rem;
+      letter-spacing:0.2em;
+      opacity:0.35;
+    }
+
+    @media (max-width:720px){
+      header{ padding:1.1rem 1.25rem; font-size:0.6rem; }
+      .viewer{ padding:0 2.75rem 1.5rem; }
+      .nav{ font-size:1.35rem; }
+      .nav--prev{ left:0.4rem; }
+      .nav--next{ right:0.4rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .nav{ transition:none; }
     }
   </style>
 </head>
 <body>
 
   <header>
-    <a href="../">← Laurent Bourdoiseau</a>
+    <a href="../">Laurent Bourdoiseau</a>
     <span>Photographie</span>
   </header>
 
-  <main class="gallery">
-    <div class="plate"><img src="images/01.jpg" alt="" loading="lazy"></div>
-    <div class="plate"><img src="images/02.jpg" alt="" loading="lazy"></div>
-    <div class="plate"><img src="images/03.jpg" alt="" loading="lazy"></div>
-    <div class="plate"><img src="images/04.jpg" alt="" loading="lazy"></div>
-    <div class="plate"><img src="images/05.jpg" alt="" loading="lazy"></div>
-    <div class="plate"><img src="images/06.jpg" alt="" loading="lazy"></div>
-    <div class="plate"><img src="images/07.jpg" alt="" loading="lazy"></div>
-    <div class="plate"><img src="images/08.jpg" alt="" loading="lazy"></div>
-    <div class="plate"><img src="images/09.jpg" alt="" loading="lazy"></div>
-    <div class="plate"><img src="images/10.jpg" alt="" loading="lazy"></div>
-    <div class="plate"><img src="images/11.jpg" alt="" loading="lazy"></div>
-    <div class="plate"><img src="images/12.jpg" alt="" loading="lazy"></div>
+  <main class="viewer" aria-label="Galerie photographie">
+    <button class="nav nav--prev" type="button" aria-label="Image précédente">‹</button>
+
+    <figure class="frame">
+      <img id="slide" src="images/01.jpg" alt="" draggable="false">
+    </figure>
+
+    <button class="nav nav--next" type="button" aria-label="Image suivante">›</button>
+    <p class="counter" id="counter" aria-live="polite">1 / 12</p>
   </main>
+
+  <script>
+    const images = Array.from({ length: 12 }, (_, i) =>
+      `images/${String(i + 1).padStart(2, '0')}.jpg`
+    );
+
+    let index = 0;
+    const slide = document.getElementById('slide');
+    const counter = document.getElementById('counter');
+    const prev = document.querySelector('.nav--prev');
+    const next = document.querySelector('.nav--next');
+
+    function render() {
+      slide.src = images[index];
+      counter.textContent = `${index + 1} / ${images.length}`;
+      prev.disabled = index === 0;
+      next.disabled = index === images.length - 1;
+    }
+
+    prev.addEventListener('click', () => {
+      if (index > 0) { index -= 1; render(); }
+    });
+
+    next.addEventListener('click', () => {
+      if (index < images.length - 1) { index += 1; render(); }
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft' && index > 0) { index -= 1; render(); }
+      if (e.key === 'ArrowRight' && index < images.length - 1) { index += 1; render(); }
+    });
+
+    let touchX = null;
+    slide.addEventListener('touchstart', (e) => { touchX = e.changedTouches[0].clientX; }, { passive: true });
+    slide.addEventListener('touchend', (e) => {
+      if (touchX === null) return;
+      const delta = e.changedTouches[0].clientX - touchX;
+      if (delta > 50 && index > 0) { index -= 1; render(); }
+      if (delta < -50 && index < images.length - 1) { index += 1; render(); }
+      touchX = null;
+    }, { passive: true });
+
+    render();
+  </script>
 
 </body>
 </html>
