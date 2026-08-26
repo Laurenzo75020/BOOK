@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laurent Bourdoiseau</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#F1EEE7;
+    --void:#0A0A0B;
+    --silver:#C7C0AE;    /* photographie — argentique, papier, grain */
+    --synth:#8C8CF0;     /* ia — lumière d'écran, synthèse */
+    --silver-dim:#3a3833;
+    --synth-dim:#2b2b46;
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html,body{ height:100%; background:var(--void); overflow:hidden; }
+  body{
+    font-family:'Inter', sans-serif;
+    color:var(--ink);
+  }
+  .split{
+    position:relative;
+    height:100vh;
+    width:100vw;
+    display:flex;
+  }
+  .panel{
+    position:relative;
+    flex:1;
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+    padding-bottom:8vh;
+    text-decoration:none;
+    color:var(--ink);
+    overflow:hidden;
+    transition:flex 0.7s cubic-bezier(.22,.61,.36,1);
+    background:var(--void);
+  }
+  .panel::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    opacity:0.14;
+    transition:opacity 0.7s ease;
+  }
+  .panel--photo::before{ background:radial-gradient(circle at 30% 20%, var(--silver-dim), transparent 60%); }
+  .panel--ia::before{ background:radial-gradient(circle at 70% 20%, var(--synth-dim), transparent 60%); }
+  .split:hover .panel{ flex:0.94; }
+  .split:hover .panel:hover{ flex:1.18; }
+  .split:hover .panel:hover::before{ opacity:0.28; }
+
+  .label{
+    position:relative;
+    text-align:center;
+  }
+  .label .eyebrow{
+    display:block;
+    font-size:0.68rem;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    opacity:0.55;
+    margin-bottom:0.6rem;
+    transition:opacity 0.4s ease;
+  }
+  .label .word{
+    font-family:'Fraunces', serif;
+    font-optical-sizing:auto;
+    font-weight:300;
+    font-size:clamp(1.8rem, 4.2vw, 3.4rem);
+    letter-spacing:-0.01em;
+    transition:color 0.5s ease;
+  }
+  .panel--photo .word{ color:var(--ink); }
+  .panel--photo:hover .word{ color:var(--silver); }
+  .panel--photo:hover .eyebrow{ opacity:0.85; }
+  .panel--ia .word{ color:var(--ink); }
+  .panel--ia:hover .word{ color:var(--synth); }
+  .panel--ia:hover .eyebrow{ opacity:0.85; }
+
+  .spine{
+    position:absolute;
+    top:0; bottom:0; left:50%;
+    width:1px;
+    background:linear-gradient(to bottom, transparent, rgba(241,238,231,0.25) 15%, rgba(241,238,231,0.25) 85%, transparent);
+    transform:translateX(-0.5px);
+    z-index:2;
+    pointer-events:none;
+  }
+
+  .signature{
+    position:absolute;
+    top:6vh; left:50%;
+    transform:translateX(-50%);
+    text-align:center;
+    z-index:3;
+    pointer-events:none;
+  }
+  .signature .name{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:clamp(1rem, 2vw, 1.3rem);
+    letter-spacing:0.01em;
+  }
+  .signature .role{
+    font-size:0.62rem;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    opacity:0.5;
+    margin-top:0.35rem;
+  }
+
+  @media (max-width:720px){
+    .split{ flex-direction:column; }
+    .split:hover .panel{ flex:1; }
+    .split:hover .panel:hover{ flex:1.35; }
+    .spine{ top:50%; left:0; right:0; bottom:auto; width:auto; height:1px;
+      background:linear-gradient(to right, transparent, rgba(241,238,231,0.25) 15%, rgba(241,238,231,0.25) 85%, transparent);
+      transform:translateY(-0.5px);
+    }
+    .panel{ padding-bottom:6vh; }
+    .signature{ top:4vh; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .panel, .panel::before, .word, .eyebrow{ transition:none; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="signature">
+    <div class="name">Laurent Bourdoiseau</div>
+    <div class="role">Photographie &amp; création IA</div>
+  </div>
+
+  <div class="split">
+    <a class="panel panel--photo" href="photo/">
+      <span class="label">
+        <span class="eyebrow">Book</span>
+        <span class="word">Photographie</span>
+      </span>
+    </a>
+    <div class="spine"></div>
+    <a class="panel panel--ia" href="ia/">
+      <span class="label">
+        <span class="eyebrow">Book</span>
+        <span class="word">Création IA</span>
+      </span>
+    </a>
+  </div>
+
+</body>
+</html>
